@@ -53,7 +53,10 @@ int main(int argc, char **argv)
                   << "]" << std::endl;
         motor_left->setVelocity(5.0);
         motor_right->setVelocity(5.0);
+        if (pos[0] > 4.5)
+            break;
     }
+    std::cout << "Bye from c++!" << std::endl;
 
     delete robot;
     return 0;
