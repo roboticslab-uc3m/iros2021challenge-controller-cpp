@@ -3,6 +3,7 @@
 #include <webots/GPS.hpp>
 
 #include <iostream>
+#include <sstream>
 #include <limits>
 
 int main(int argc, char **argv)
@@ -10,6 +11,24 @@ int main(int argc, char **argv)
     // Initialize the robot
     webots::Robot *robot = new webots::Robot();
     int timestep = int(robot->getBasicTimeStep());
+
+    // Obtain waypoints
+    double waypoints[10][2];
+    const std::string waypoints_string = robot->getCustomData();
+    std::istringstream waypoints_stream(waypoints_string);
+    int i=0;
+    double waypoints_element;
+    while(waypoints_stream >> waypoints_element)
+    {
+        waypoints[i/2][i%2] = waypoints_element;
+        i++;
+    }
+    std::cout << "Waypoints: ";
+    for(int i=0; i<10; i++)
+    {
+        std::cout << "[" << waypoints[i][0] << " " << waypoints[i][1] << "] ";
+    }
+    std::cout << std::endl;
 
     // Initialize devices
     webots::Motor* motor_left = robot->getMotor("wheel_left_joint");
